@@ -14,7 +14,15 @@ type ViewModel struct {
 
 // Post ...
 func (v *ViewModel) Post(w http.ResponseWriter, r *http.Request) {
-	v.Serializer.
+	if err := v.Serializer.SetData(r); err != nil {
+		v.Serializer.SendResponse(w, err)
+		return
+	}
+	if err := v.Serializer.Create(); err != nil {
+		v.Serializer.SendResponse(w, err)
+		return
+	}
+	v.Serializer.SendResponse(w, v.Serializer.Model)
 }
 
 // Delete ...
@@ -46,5 +54,3 @@ func (v *ViewModel) Patch(w http.ResponseWriter, r *http.Request) {
 func (v *ViewModel) Options(w http.ResponseWriter, r *http.Request) {
 
 }
-
-

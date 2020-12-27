@@ -1,4 +1,4 @@
-package views
+package serializers
 
 type APIError struct {
 	Code    int    `json:"-"`

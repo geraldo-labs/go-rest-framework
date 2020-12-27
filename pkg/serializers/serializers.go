@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/geraldo-labs/go-rest-framework/pkg/model"
-	"github.com/geraldo-labs/go-rest-framework/pkg/views"
 	"log"
 	"net/http"
 )
@@ -16,10 +15,10 @@ type SerializerModel struct {
 }
 
 // Data Receives data from payload and parse into the model
-func (s *SerializerModel) SetData(r *http.Request) *views.APIError {
+func (s *SerializerModel) SetData(r *http.Request) *APIError {
 	err := json.NewDecoder(r.Body).Decode(&s.Model)
 	if err != nil {
-		return &views.APIError{
+		return &APIError{
 			Code:    http.StatusBadRequest,
 			Message: fmt.Sprintf("%s", fmt.Errorf("%w", err)),
 		}
@@ -28,9 +27,9 @@ func (s *SerializerModel) SetData(r *http.Request) *views.APIError {
 }
 
 // Validate Run validation on the model.
-func (s *SerializerModel) Validate() *views.APIError {
+func (s *SerializerModel) Validate() *APIError {
 	if err := s.Model.Validate(); err != nil {
-		return &views.APIError{
+		return &APIError{
 			Code:    http.StatusBadRequest,
 			Message: fmt.Sprintf("%s", fmt.Errorf("%w", err)),
 		}
@@ -39,9 +38,9 @@ func (s *SerializerModel) Validate() *views.APIError {
 }
 
 // GetData Get serialized data from the model
-func (s *SerializerModel) GetData() *views.APIError {
+func (s *SerializerModel) GetData() *APIError {
 	if err := s.Model.Validate(); err != nil {
-		return &views.APIError{
+		return &APIError{
 			Code:    http.StatusBadRequest,
 			Message: fmt.Sprintf("%s", fmt.Errorf("%w", err)),
 		}
@@ -50,7 +49,7 @@ func (s *SerializerModel) GetData() *views.APIError {
 }
 
 // Create Creates data using registered model
-func (s *SerializerModel) Create() *views.APIError {
+func (s *SerializerModel) Create() *APIError {
 	return nil
 }
 
